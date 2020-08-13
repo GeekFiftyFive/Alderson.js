@@ -1,0 +1,28 @@
+{
+  "name": "alderson",
+  "version": "1.0.0",
+  "description": "Alderson.js is a utility for simulating responses from APIs. It can also act as a proxy to your real API, whilst acting as a middleman.",
+  "main": "/dist/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeekFiftyFive/Alderson.js.git"
+  },
+  "keywords": [
+    "http",
+    "api",
+    "test"
+  ],
+  "author": "Oliver Pellatt",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/GeekFiftyFive/Alderson.js/issues"
+  },
+  "homepage": "https://github.com/GeekFiftyFive/Alderson.js#readme"
+}

@@ -4,6 +4,7 @@ import { Config } from "./interfaces/Config";
 import { Endpoint } from "./interfaces/Endpoint";
 import { Action } from "./interfaces/Action";
 import { ActionType } from "./enums/ActionType";
+import { Handler } from "./types/Handler";
 
 function buildHandler(actions: Action[]) {
     const handlers: any[] = [];
@@ -11,12 +12,12 @@ function buildHandler(actions: Action[]) {
     actions.forEach((action: Action) => {
         switch(action.type) {
             case ActionType.DELAY:
-                handlers.push((req: any, res: any, rest: ((nReq: any, nRes: any, nRest: any[]) => void)[]) => {
+                handlers.push((req: any, res: any, rest: Handler[]) => {
                     setTimeout(() => rest[0](req, res, rest.slice(1)), action.parameters?.duration);
                 });
                 break;
             case ActionType.ECHO:
-                handlers.push((req: any, res: any, _rest: ((nReq: any, nRes: any, nRest: any[]) => void)[]) => {
+                handlers.push((req: any, res: any, _rest: Handler[]) => {
                     if (req.get('Content-Type')) {
                         res = res.type(req.get('Content-Type'));
                     }
@@ -26,7 +27,7 @@ function buildHandler(actions: Action[]) {
                 });
                 break;
             case ActionType.LOG:
-                handlers.push((req: any, res: any, rest: ((nReq: any, nRes: any, nRest: any[]) => void)[]) => {
+                handlers.push((req: any, res: any, rest: Handler[]) => {
                     if(!action?.parameters.message) {
                         console.error("Log actions require parameters!");
                     } else {

@@ -11,7 +11,6 @@ function buildHandler(actions: Action[]) {
     const handlers: any[] = [];
 
     actions.forEach((action: Action) => {
-
         switch(action.type) {
             case ActionType.DELAY:
                 handlers.push((req: any, res: any, rest: Handler[]) => {

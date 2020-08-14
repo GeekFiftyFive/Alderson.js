@@ -1,0 +1,32 @@
+{
+    "origins": {
+        "echo_server": "http://localhost:8081"
+    },
+    "endpoints": [
+        {
+            "uri": "/echo",
+            "method": "post",
+            "actions": [
+                {
+                    "type": "delay",
+                    "parameters": {
+                        "duration": 3000
+                    }
+                },
+                {
+                    "type": "log",
+                    "parameters": {
+                        "message": "Finished delay!"
+                    }
+                },
+                {
+                    "type": "origin",
+                    "parameters": {
+                        "origin": "echo_server",
+                        "uri": "/echo"
+                    }
+                }
+            ]
+        }
+    ]
+}

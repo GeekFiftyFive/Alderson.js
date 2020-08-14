@@ -1,4 +1,5 @@
 export enum ActionType {
     ECHO = "echo",
-    DELAY = "delay"
+    DELAY = "delay",
+    LOG = "log"
 };

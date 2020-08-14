@@ -11,12 +11,12 @@ function buildHandler(actions: Action[]) {
     actions.forEach((action: Action) => {
         switch(action.type) {
             case ActionType.DELAY:
-                handlers.push((req: any, res: any, next: (...args: any[]) => void) => {
-                    setTimeout(() => next(req, res), action.parameters?.duration);
+                handlers.push((req: any, res: any, rest: ((nReq: any, nRes: any, nRest: any[]) => void)[]) => {
+                    setTimeout(() => rest[0](req, res, rest.slice(1)), action.parameters?.duration);
                 });
                 break;
             case ActionType.ECHO:
-                handlers.push((req: any, res: any, _next: (...args: any[]) => void) => {
+                handlers.push((req: any, res: any, _rest: ((nReq: any, nRes: any, nRest: any[]) => void)[]) => {
                     if (req.get('Content-Type')) {
                         res = res.type(req.get('Content-Type'));
                     }
@@ -25,16 +25,23 @@ function buildHandler(actions: Action[]) {
                     // terminal
                 });
                 break;
+            case ActionType.LOG:
+                handlers.push((req: any, res: any, rest: ((nReq: any, nRes: any, nRest: any[]) => void)[]) => {
+                    if(!action?.parameters.message) {
+                        console.error("Log actions require parameters!");
+                    } else {
+                        console.info(action.parameters.message);
+                    }
+
+                    rest[0](req, res, rest.slice(1));
+                });
+                break;
             default:
                 console.error(`Invalid action type: ${action.type}`);
         }
     });
 
-    return (req: any, res: any) => {
-        for(let i = 0; i < handlers.length - 1; i++) {
-            handlers[i](req, res, handlers[i + 1]);
-        }
-    };
+    return (req: any, res: any) => handlers[0](req, res, handlers.slice(1));
 }
 
 export function buildApp(config: Config): express.Express {

@@ -11,6 +11,12 @@
                     }
                 },
                 {
+                    "type": "log",
+                    "parameters": {
+                        "message": "Finished delay!"
+                    }
+                },
+                {
                     "type": "echo"
                 }
             ]

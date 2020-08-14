@@ -17,6 +17,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",
+    "run_delayed_echo": "npm start delayed_echo.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -1,0 +1,19 @@
+{
+    "endpoints": [
+        {
+            "uri": "/echo",
+            "method": "post",
+            "actions": [
+                {
+                    "type": "delay",
+                    "parameters": {
+                        "duration": 3000
+                    }
+                },
+                {
+                    "type": "echo"
+                }
+            ]
+        }
+    ]
+}

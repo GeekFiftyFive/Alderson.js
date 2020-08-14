@@ -45,18 +45,12 @@ function buildHandler(actions: Action[], origins: any, method: Method) {
             case ActionType.ORIGIN:
                 handlers.push((req: any, res: any, rest: Handler[]) => {
                     ActionValidation.validate(action, rest);
-                    let contentType: string = "application/json";
-                    if(req.get('Content-Type')) {
-                        contentType = req.get('Content-Type');
-                    }
 
                     axios({
                         method: method as AxiosMethod,
                         url: origins[action.parameters.origin] + action.parameters.uri,
                         data: req.body,
-                        headers: {
-                            "Content-Type": contentType
-                        }
+                        headers: req.headers
                     }).then((response: any) => {
                         res.send(response.data);
                     }).catch((ex: Error) => {

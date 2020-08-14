@@ -9,7 +9,7 @@ if(process.argv.length < 3) {
 }
 
 for(let i = 2; i < process.argv.length; i++) {
-    const config: Config = JSON.parse(fs.readFileSync(process.argv[2]).toString());
+    const config: Config = JSON.parse(fs.readFileSync(process.argv[i]).toString());
 
     const app = Builder.buildApp(config);
     const port = config.port ? config.port : 8080; // default port to listen

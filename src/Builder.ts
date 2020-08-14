@@ -1,13 +1,16 @@
 import express from "express";
 import bodyParser from "body-parser";
+import axios from "axios";
 import { Config } from "./interfaces/Config";
 import { Endpoint } from "./interfaces/Endpoint";
 import { Action } from "./interfaces/Action";
 import { ActionType } from "./enums/ActionType";
 import { Handler } from "./types/Handler";
 import * as ActionValidation from "./validation/ActionValidator";
+import { Method } from "./enums/Method";
+import { Method as AxiosMethod } from "axios";
 
-function buildHandler(actions: Action[]) {
+function buildHandler(actions: Action[], origins: any, method: Method) {
     const handlers: any[] = [];
 
     actions.forEach((action: Action) => {
@@ -39,6 +42,28 @@ function buildHandler(actions: Action[]) {
                     rest[0](req, res, rest.slice(1));
                 });
                 break;
+            case ActionType.ORIGIN:
+                handlers.push((req: any, res: any, rest: Handler[]) => {
+                    ActionValidation.validate(action, rest);
+                    let contentType: string = "application/json";
+                    if(req.get('Content-Type')) {
+                        contentType = req.get('Content-Type');
+                    }
+
+                    axios({
+                        method: method as AxiosMethod,
+                        url: origins[action.parameters.origin] + action.parameters.uri,
+                        data: req.body,
+                        headers: {
+                            "Content-Type": contentType
+                        }
+                    }).then((response: any) => {
+                        res.send(response.data);
+                    }).catch((ex: Error) => {
+                        console.error(ex);
+                    });
+                });
+                break;
             default:
                 console.error(`Invalid action type: ${action.type}`);
         }
@@ -53,7 +78,7 @@ export function buildApp(config: Config): express.Express {
     app.use(bodyParser.text());
 
     config.endpoints.forEach((endpoint: Endpoint) => {
-        app[endpoint.method](endpoint.uri, buildHandler(endpoint.actions));
+        app[endpoint.method](endpoint.uri, buildHandler(endpoint.actions, config.origins, endpoint.method));
     });
 
     return app;

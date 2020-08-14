@@ -4,6 +4,7 @@
   "description": "Alderson.js is a utility for simulating responses from APIs. It can also act as a proxy to your real API, whilst acting as a middleman.",
   "main": "./dist/index.js",
   "dependencies": {
+    "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "express": "^4.17.1"
   },

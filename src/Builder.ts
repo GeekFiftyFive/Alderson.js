@@ -5,11 +5,13 @@ import { Endpoint } from "./interfaces/Endpoint";
 import { Action } from "./interfaces/Action";
 import { ActionType } from "./enums/ActionType";
 import { Handler } from "./types/Handler";
+import * as ActionValidation from "./validation/ActionValidator";
 
 function buildHandler(actions: Action[]) {
     const handlers: any[] = [];
 
     actions.forEach((action: Action) => {
+
         switch(action.type) {
             case ActionType.DELAY:
                 handlers.push((req: any, res: any, rest: Handler[]) => {
@@ -17,7 +19,8 @@ function buildHandler(actions: Action[]) {
                 });
                 break;
             case ActionType.ECHO:
-                handlers.push((req: any, res: any, _rest: Handler[]) => {
+                handlers.push((req: any, res: any, rest: Handler[]) => {
+                    ActionValidation.validate(action, rest);
                     if (req.get('Content-Type')) {
                         res = res.type(req.get('Content-Type'));
                     }

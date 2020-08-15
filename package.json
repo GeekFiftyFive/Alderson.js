@@ -1,6 +1,6 @@
 {
   "name": "aldersonjs",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Alderson.js is a utility for simulating responses from APIs. It can also act as a proxy to your real API, whilst acting as a middleman.",
   "main": "./dist/index.js",
   "dependencies": {
@@ -39,8 +39,6 @@
   "bugs": {
     "url": "https://github.com/GeekFiftyFive/Alderson.js/issues"
   },
-  "bin": {
-    "aldersonjs": "./dist/index.js"
-  },
+  "bin": "./dist/index.js",
   "homepage": "https://github.com/GeekFiftyFive/Alderson.js#readme"
 }

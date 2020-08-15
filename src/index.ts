@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { exit } from "process";
 import fs from "fs";
 import * as Builder from "./Builder";

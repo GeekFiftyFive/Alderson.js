@@ -25,6 +25,9 @@
     "run_static_response": "npm start examples/static_response.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": [
+    "/dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GeekFiftyFive/Alderson.js.git"

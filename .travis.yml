@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - "12"
+install:
+  - "npm install"
+jobs:
+  include:
+    - stage: dry-run
+      if: type IN (pull_request)
+      script: npm run build && npm publish --dry-run
+    - stage: deploy
+      if: NOT type IN (pull_request)
+      script: npm run build
+      deploy:
+        provider: npm
+        email: "$NPM_EMAIL"
+        api_key: "$NPM_API_TOKEN"
+        skip_cleanup: true
+        on:
+          branch: master

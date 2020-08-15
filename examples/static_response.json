@@ -7,7 +7,7 @@
                 {
                     "type": "log",
                     "parameters": {
-                        "message": "Writing static content!"
+                        "message": "Writing HTML content!"
                     }
                 },
                 {
@@ -21,6 +21,35 @@
                     "parameters": {
                         "body": "<html><body><h1>Not found</h1></body></html>",
                         "content_type": "text/html"
+                    }
+                }
+            ]
+        },
+        {
+            "uri": "/api",
+            "method": "get",
+            "actions": [
+                {
+                    "type": "log",
+                    "parameters": {
+                        "message": "Writing JSON content!"
+                    }
+                },
+                {
+                    "type": "static",
+                    "parameters": {
+                        "body": {
+                            "version": "0.0.1",
+                            "number": 42,
+                            "string": "Anderson.JS",
+                            "array": [
+                                "Hello",
+                                "World!"
+                            ],
+                            "object": {
+                                "object_string": "static content"
+                            }
+                        }
                     }
                 }
             ]

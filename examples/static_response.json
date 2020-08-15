@@ -41,7 +41,7 @@
                         "body": {
                             "version": "0.0.1",
                             "number": 42,
-                            "string": "Anderson.JS",
+                            "string": "Alderson.JS",
                             "array": [
                                 "Hello",
                                 "World!"

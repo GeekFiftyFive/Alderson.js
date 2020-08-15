@@ -98,7 +98,7 @@ Inserts a delay before executing the next action
 ~~~
 
 ### Log
-Logs a message to Anderson.js's console
+Logs a message to Alderson.js's console
 
 ~~~
 {

@@ -58,6 +58,26 @@ function buildHandler(actions: Action[], origins: any, method: Method) {
                     });
                 });
                 break;
+            case ActionType.STATUS_CODE:
+                handlers.push((req: any, res: any, rest: Handler[]) => {
+                    const statusCode = action?.parameters.status_code ? action?.parameters.status_code : 200;
+
+                    res.statusCode = statusCode;
+
+                    rest[0](req, res, rest.slice(1));
+                });
+                break;
+            case ActionType.STATIC:
+                handlers.push((_req: any, res: any, rest: Handler[]) => {
+                    ActionValidation.validate(action, rest);
+
+                    const contentType = action?.parameters.content_type ?
+                                            action?.parameters.content_type : "application/json";
+
+                    res.type(contentType);
+                    res.send(action?.parameters.body);
+                });
+                break;
             default:
                 console.error(`Invalid action type: ${action.type}`);
         }

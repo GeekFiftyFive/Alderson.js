@@ -9,6 +9,14 @@ Alderson.js is an API mocking utility, allowing for easy configuration via JSON 
 
 By giving you more flexibility and control over API responses, testing your frontends is made easy.
 
+## Usage
+
+AldersonJS can be invoked using `npx`. Simply run `npx aldersonjs` and then a list of the config jsons you want to host mock APIs for, as shown below:
+
+~~~
+npx aldersonjs <config1.json> <config2.json> //etc
+~~~
+
 ## Configuring Alderson
 
 As mentioned previously, Alderson.js is configured via JSON files. Examples of which can be found in the `examples` directory. At the top level, these files look like the following:

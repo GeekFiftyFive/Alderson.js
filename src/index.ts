@@ -6,7 +6,7 @@ import * as Builder from "./Builder";
 import { Config } from "./interfaces/Config";
 
 if(process.argv.length < 3) {
-    console.log("Usage: npx alderson [config jsons]");
+    console.log("Usage: aldersonjs [config jsons]");
     exit(1);
 }
 

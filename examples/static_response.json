@@ -1,0 +1,29 @@
+{
+    "endpoints": [
+        {
+            "uri": "/notfound.html",
+            "method": "get",
+            "actions": [
+                {
+                    "type": "log",
+                    "parameters": {
+                        "message": "Writing static content!"
+                    }
+                },
+                {
+                    "type": "status_code",
+                    "parameters": {
+                        "status_code": 404
+                    }
+                },
+                {
+                    "type": "static",
+                    "parameters": {
+                        "body": "<html><body><h1>Not found</h1></body></html>",
+                        "content_type": "text/html"
+                    }
+                }
+            ]
+        }
+    ]
+}

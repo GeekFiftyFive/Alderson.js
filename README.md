@@ -1,6 +1,7 @@
 <img src="https://repository-images.githubusercontent.com/287357886/efdb9180-df0b-11ea-8713-b6107de93990" width=360px alt="Alderson.js Logo"/>
 
-![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
+![Node.js Package](https://github.com/GeekFiftyFive/Alderson.js/workflows/Node.js%20Package/badge.svg) ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
+
 
 # Alderson.js
 

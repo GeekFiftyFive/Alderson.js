@@ -143,7 +143,7 @@ Servers up static content
 ~~~
 {
     "body": {
-        "type": "string",
+        "type": "string | object",
         "description": "The body of the response"
     },
     "content_type": {

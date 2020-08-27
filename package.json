@@ -23,6 +23,7 @@
     "run_basic_echo": "npm start examples/basic_echo.json",
     "run_delayed_origin": "npm start examples/delayed_origin.json examples/basic_echo.json",
     "run_static_response": "npm start examples/static_response.json",
+    "run_delayed_echo_all": "npm start examples/delayed_echo_all.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [

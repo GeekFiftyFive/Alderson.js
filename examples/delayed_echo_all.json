@@ -1,0 +1,19 @@
+{
+    "actions": [
+        {
+            "type": "delay",
+            "parameters": {
+                "duration": 3000
+            }
+        },
+        {
+            "type": "log",
+            "parameters": {
+                "message": "Finished delay!"
+            }
+        },
+        {
+            "type": "echo"
+        }
+    ]
+}

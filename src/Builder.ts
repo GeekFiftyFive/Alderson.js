@@ -7,10 +7,9 @@ import { Action } from "./interfaces/Action";
 import { ActionType } from "./enums/ActionType";
 import { Handler } from "./types/Handler";
 import * as ActionValidation from "./validation/ActionValidator";
-import { Method } from "./enums/Method";
 import { Method as AxiosMethod } from "axios";
 
-function buildHandler(actions: Action[], origins: any, method: Method) {
+function buildHandler(actions: Action[], origins: any) {
     const handlers: any[] = [];
 
     actions.forEach((action: Action) => {
@@ -47,7 +46,7 @@ function buildHandler(actions: Action[], origins: any, method: Method) {
                     ActionValidation.validate(action, rest);
 
                     axios({
-                        method: method as AxiosMethod,
+                        method: req.method as AxiosMethod,
                         url: origins[action.parameters.origin] + action.parameters.uri,
                         data: req.body,
                         headers: req.headers
@@ -91,9 +90,13 @@ export function buildApp(config: Config): express.Express {
 
     app.use(bodyParser.text());
 
-    config.endpoints.forEach((endpoint: Endpoint) => {
-        app[endpoint.method](endpoint.uri, buildHandler(endpoint.actions, config.origins, endpoint.method));
-    });
+    if(config.endpoints) {
+        config.endpoints.forEach((endpoint: Endpoint) => {
+            app[endpoint.method](endpoint.uri, buildHandler(endpoint.actions, config.origins));
+        });
+    } else {
+        app.all("/*", buildHandler(config.actions, config.origins));
+    }
 
     return app;
 }

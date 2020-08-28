@@ -41,6 +41,15 @@ As mentioned previously, Alderson.js is configured via JSON files. Examples of w
         "items": {
             "type": "Endpoint"
         }
+        "optional": "only if 'actions' is defined"
+    },
+    "actions": {
+        "type: "array",
+        "description": "An array of actions to be performed for all methods and URIs",
+        "items": {
+            "type": "Action"
+        }
+        "optional": "only if 'endpoints' is defined"
     }
 }
 ~~~

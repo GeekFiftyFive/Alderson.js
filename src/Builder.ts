@@ -9,8 +9,8 @@ import { Handler } from "./types/Handler";
 import * as ActionValidation from "./validation/ActionValidator";
 import { Method as AxiosMethod } from "axios";
 
-function buildHandler(actions: Action[], origins: any) {
-    const handlers: any[] = [];
+export function buildHandlers(actions: Action[], origins: any): Handler[] {
+    const handlers: Handler[] = [];
 
     actions.forEach((action: Action) => {
         switch(action.type) {
@@ -82,7 +82,7 @@ function buildHandler(actions: Action[], origins: any) {
         }
     });
 
-    return (req: any, res: any) => handlers[0](req, res, handlers.slice(1));
+    return handlers;
 }
 
 export function buildApp(config: Config): express.Express {
@@ -92,10 +92,12 @@ export function buildApp(config: Config): express.Express {
 
     if(config.endpoints) {
         config.endpoints.forEach((endpoint: Endpoint) => {
-            app[endpoint.method](endpoint.uri, buildHandler(endpoint.actions, config.origins));
+            const handlers = buildHandlers(endpoint.actions, config.origins);
+            app[endpoint.method](endpoint.uri, (req: any, res: any) => handlers[0](req, res, handlers.slice(1)));
         });
     } else {
-        app.all("/*", buildHandler(config.actions, config.origins));
+        const handlers = buildHandlers(config.actions, config.origins);
+        app.all("/*", (req: any, res: any) => handlers[0](req, res, handlers.slice(1)));
     }
 
     return app;

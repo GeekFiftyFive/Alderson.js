@@ -55,8 +55,12 @@ export function validate(config: Config) {
 
     if(errors.length > 0) return errors;
 
-    if(config.endpoints) {
-        validateEndpoints(config.endpoints, errors);
+    if(config.endpoints && config.actions) {
+        errors.push(new Error(
+            `Cannot define both actions and endpoints on object ${JSON.stringify(config)}`
+        ))
+    } else if (config.endpoints) {
+        validateEndpoints(config.endpoints, errors)
     } else {
         validateActions(config.actions, errors);
     }

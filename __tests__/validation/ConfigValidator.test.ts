@@ -4,14 +4,26 @@ import { validate } from "../../src/validation/ConfigValidator"
 
 describe("ConfigValidator", () => {
     it("should validate when a config with just endpoints is used", () => {
-        let config: Config = new MockConfigBuilder().withEndpoints().build();
+        const config: Config = new MockConfigBuilder().withEndpoints().build();
         const errors = validate(config);
         expect(errors).toHaveLength(0);
     });
 
     it("should validate when a config with just actions is used", () => {
-        let config: Config = new MockConfigBuilder().withActions().build();
+        const config: Config = new MockConfigBuilder().withActions().build();
         const errors = validate(config);
         expect(errors).toHaveLength(0);
-    })
+    });
+
+    it("should fail to validate when no actions or endpoints are defined", () => {
+        const config: Config = new MockConfigBuilder().build();
+        const errors = validate(config);
+        expect(errors).toHaveLength(1);
+    });
+    
+    it("should fail to validate when both actions and endpoints are defined", () => {
+        const config: Config = new MockConfigBuilder().withActions().withEndpoints().build();
+        const errors = validate(config);
+        expect(errors).toHaveLength(1);
+    });
 });

@@ -29,7 +29,9 @@ function validateKeysDefined(object: any, keys: string[] | string[][]): Error[] 
     return errors;
 }
 
-function validateEndpoints(endpoints: Endpoint[], errors: Error[]) {
+function validateEndpoints(endpoints: Endpoint[]) {
+    let errors: Error[] = [];
+
     if(!Array.isArray(endpoints)) {
         errors.push(new Error("Endpoints must be an array"));
         return errors;
@@ -40,13 +42,18 @@ function validateEndpoints(endpoints: Endpoint[], errors: Error[]) {
             "uri", "method", "actions"
         ]));
     });
+
+    return errors;
 }
 
-function validateActions(actions: Action[], errors: Error[]) {
+function validateActions(actions: Action[]) {
+    let errors: Error[] = [];
+
     if(!Array.isArray(actions)) {
         errors.push(new Error("Actions must be an array"));
-        return errors;
     }
+
+    return errors;
 }
 
 export function validate(config: Config) {
@@ -60,9 +67,9 @@ export function validate(config: Config) {
             `Cannot define both actions and endpoints on object ${JSON.stringify(config)}`
         ))
     } else if (config.endpoints) {
-        validateEndpoints(config.endpoints, errors)
+        errors = errors.concat(validateEndpoints(config.endpoints));
     } else {
-        validateActions(config.actions, errors);
+        errors = errors.concat(validateActions(config.actions));
     }
 
     return errors;

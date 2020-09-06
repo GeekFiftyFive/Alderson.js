@@ -33,6 +33,33 @@ describe("ConfigValidator", () => {
         expect(errors).toHaveLength(1);
     });
 
+    it("should fail to validate an endpoint is missing method", () => {
+        const config: Config = new MockConfigBuilder()
+                                        .withEndpoints()
+                                        .addInvalidEndpoint("uri", "actions")
+                                        .build();
+        const errors = validate(config);
+        expect(errors).toHaveLength(1);
+    });
+
+    it("should fail to validate an endpoint is missing actions", () => {
+        const config: Config = new MockConfigBuilder()
+                                        .withEndpoints()
+                                        .addInvalidEndpoint("uri", "method")
+                                        .build();
+        const errors = validate(config);
+        expect(errors).toHaveLength(1);
+    });
+
+    it("should fail to validate an endpoint is missing two fields", () => {
+        const config: Config = new MockConfigBuilder()
+                                        .withEndpoints()
+                                        .addInvalidEndpoint("method")
+                                        .build();
+        const errors = validate(config);
+        expect(errors).toHaveLength(2);
+    });
+
     it("should fail to validate when no actions or endpoints are defined", () => {
         const config: Config = new MockConfigBuilder().build();
         const errors = validate(config);

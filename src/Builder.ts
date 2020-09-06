@@ -9,7 +9,7 @@ import { Handler } from "./types/Handler";
 import * as ActionValidation from "./validation/ActionValidator";
 import { Method as AxiosMethod } from "axios";
 
-export function buildHandlers(actions: Action[], origins: any): Handler[] {
+export function buildHandlers(actions: Action[], origins: any = {}): Handler[] {
     const handlers: Handler[] = [];
 
     actions.forEach((action: Action) => {

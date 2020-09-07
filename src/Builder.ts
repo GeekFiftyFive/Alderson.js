@@ -59,7 +59,7 @@ export function buildHandlers(actions: Action[], origins: any = {}): Handler[] {
                 break;
             case ActionType.STATUS_CODE:
                 handlers.push((req: any, res: any, rest: Handler[]) => {
-                    const statusCode = action?.parameters.status_code ? action?.parameters.status_code : 200;
+                    const statusCode = action?.parameters?.status_code ? action?.parameters.status_code : 200;
 
                     res.statusCode = statusCode;
 

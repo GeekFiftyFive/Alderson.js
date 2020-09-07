@@ -92,4 +92,11 @@ describe("Builder", () => {
         }];
         verifyStatusCode(actions, 403);
     });
+
+    it("should properly create a status code handler when a status code is not specified", () => {
+        const actions: Action[] = [{
+            type: ActionType.STATUS_CODE
+        }];
+        verifyStatusCode(actions, 200);
+    });
 });

@@ -28,8 +28,8 @@ describe("Builder", () => {
 
         handlers[0](req, { type, send }, []);
 
-        expect(type.mock.calls[0]).toEqual([expected.type]);
-        expect(send.mock.calls[0]).toEqual([expected.body]);
+        expect(type).toHaveBeenCalledWith(expected.type);
+        expect(send).toHaveBeenCalledWith(expected.body);
     }
 
     it("should properly create an echo handler", () => {
@@ -80,7 +80,7 @@ describe("Builder", () => {
         handlers[0](req, res, [callback]);
 
         expect(res.statusCode).toEqual(statusCode);
-        expect(callback.mock.calls).toHaveLength(1);
+        expect(callback).toHaveBeenCalledTimes(1);
     };
 
     it("should properly create a status code handler when a status code is specified", () => {
@@ -114,6 +114,6 @@ describe("Builder", () => {
         handlers[0](req, res, [() => {}]);
 
         expect(setTimeout).toHaveBeenCalledTimes(1);
-        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000);
+        expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 3000);
     });
 });

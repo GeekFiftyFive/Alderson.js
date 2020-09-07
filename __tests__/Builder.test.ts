@@ -51,4 +51,22 @@ describe("Builder", () => {
         expect(type.mock.calls[0]).toEqual(["text/html"]);
         expect(send.mock.calls[0]).toEqual(["<h1>Test body</h1>"]);
     });
+
+    it("should properly create a static handler when content type not specified", () => {
+        const handlers: Handler[] = buildHandlers([{
+            type: ActionType.STATIC,
+            parameters: {
+                body: "{}"
+            }
+        }]);
+        expect(handlers).toHaveLength(1);
+
+        const send = jest.fn(() => {});
+        const type = jest.fn(() => { return { send } });
+
+        handlers[0]({}, { type, send }, []);
+
+        expect(type.mock.calls[0]).toEqual(["application/json"]);
+        expect(send.mock.calls[0]).toEqual(["{}"]);
+    });
 });

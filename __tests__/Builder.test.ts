@@ -1,7 +1,10 @@
+import axios from "axios";
 import { buildHandlers } from "../src/Builder";
 import { Handler } from "../src/types/Handler";
 import { ActionType } from "../src/enums/ActionType";
 import { Action } from "../src/interfaces/Action";
+
+jest.mock("axios");
 
 describe("Builder", () => {
     it("should create no handlers for an empty array", () => {
@@ -109,11 +112,43 @@ describe("Builder", () => {
             }
         }];
         const handlers = buildHandlers(actions);
-        const req = {};
-        const res = {};
-        handlers[0](req, res, [() => {}]);
+        handlers[0]({}, {}, [() => {}]);
 
         expect(setTimeout).toHaveBeenCalledTimes(1);
         expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 3000);
+    });
+
+    it("should properly create an origin handler", () => {
+        const actions: Action[] = [{
+            type: ActionType.ORIGIN,
+            parameters: {
+                origin: "test origin",
+                uri: "/api"
+            }
+        }];
+        const req = {
+            method: "GET",
+            body: "Request body",
+            headers: {
+                header_1: "sample value"
+            }
+        };
+        const res = {
+            send: jest.fn(() => {})
+        };
+        const handlers = buildHandlers(actions, {
+            "test origin": "localhost:8080"
+        });
+        (axios as any).mockResolvedValue({
+            data: "Request body"
+        });
+        handlers[0](req, res, []);
+
+        expect(axios).toHaveBeenCalledWith({
+            method: "GET",
+            url: "localhost:8080/api",
+            data: "Request body",
+            headers: req.headers
+        });
     });
 });

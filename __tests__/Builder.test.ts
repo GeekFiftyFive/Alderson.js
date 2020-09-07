@@ -68,4 +68,24 @@ describe("Builder", () => {
 
         verifyRequestResponse(actions, { type, body });
     });
+
+    it("should properly create a status code handler when a status code is specified", () => {
+        const actions: Action[] = [{
+            type: ActionType.STATUS_CODE,
+            parameters: {
+                status_code: 403
+            }
+        }];
+        const handlers = buildHandlers(actions);
+        const callback = jest.fn(() => {});
+        let req = {};
+        let res = {
+            statusCode: null as Number
+        };
+
+        handlers[0](req, res, [callback]);
+
+        expect(res.statusCode).toEqual(403);
+        expect(callback.mock.calls).toHaveLength(1);
+    });
 });

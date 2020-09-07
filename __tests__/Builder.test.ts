@@ -99,4 +99,21 @@ describe("Builder", () => {
         }];
         verifyStatusCode(actions, 200);
     });
+
+    it("should properly create a delay handler", () => {
+        jest.useFakeTimers();
+        const actions: Action[] = [{
+            type: ActionType.DELAY,
+            parameters: {
+                duration: 3000
+            }
+        }];
+        const handlers = buildHandlers(actions);
+        const req = {};
+        const res = {};
+        handlers[0](req, res, [() => {}]);
+
+        expect(setTimeout).toHaveBeenCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000);
+    });
 });

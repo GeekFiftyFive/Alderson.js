@@ -1,6 +1,7 @@
 import { buildHandlers } from "../src/Builder";
 import { Handler } from "../src/types/Handler";
 import { ActionType } from "../src/enums/ActionType";
+import { Action } from "../src/interfaces/Action";
 
 describe("Builder", () => {
     it("should create no handlers for an empty array", () => {
@@ -8,10 +9,8 @@ describe("Builder", () => {
         expect(handlers).toHaveLength(0);
     });
 
-    it("should properly create an echo handler", () => {
-        const handlers: Handler[] = buildHandlers([{
-            type: ActionType.ECHO
-        }]);
+    const verifyRequestResponse = (actions: Action[], expected: any) => {
+        const handlers: Handler[] = buildHandlers(actions);
         expect(handlers).toHaveLength(1);
 
         const req = {
@@ -27,46 +26,46 @@ describe("Builder", () => {
         const send = jest.fn(() => {});
         const type = jest.fn(() => { return { send } });
 
-        handlers[0](req, { type }, []);
+        handlers[0](req, { type, send }, []);
 
-        expect(type.mock.calls[0]).toEqual(["application/json"]);
-        expect(send.mock.calls[0]).toEqual(["Mock body"]);
+        expect(type.mock.calls[0]).toEqual([expected.type]);
+        expect(send.mock.calls[0]).toEqual([expected.body]);
+    }
+
+    it("should properly create an echo handler", () => {
+        const actions: Action[] = [{
+            type: ActionType.ECHO
+        }];
+        const type = "application/json";
+        const body = "Mock body";
+
+        verifyRequestResponse(actions, { type, body });
     });
 
     it("should properly create a static handler when content type specified", () => {
-        const handlers: Handler[] = buildHandlers([{
+        const actions: Action[] = [{
             type: ActionType.STATIC,
             parameters: {
                 content_type: "text/html",
                 body: "<h1>Test body</h1>"
             }
-        }]);
-        expect(handlers).toHaveLength(1);
+        }];
+        const type = actions[0].parameters.content_type;
+        const body = actions[0].parameters.body;
 
-        const send = jest.fn(() => {});
-        const type = jest.fn(() => { return { send } });
-
-        handlers[0]({}, { type, send }, []);
-
-        expect(type.mock.calls[0]).toEqual(["text/html"]);
-        expect(send.mock.calls[0]).toEqual(["<h1>Test body</h1>"]);
+        verifyRequestResponse(actions, { type, body });
     });
 
     it("should properly create a static handler when content type not specified", () => {
-        const handlers: Handler[] = buildHandlers([{
+        const actions: Action[] = [{
             type: ActionType.STATIC,
             parameters: {
                 body: "{}"
             }
-        }]);
-        expect(handlers).toHaveLength(1);
+        }];
+        const type = "application/json";
+        const body = actions[0].parameters.body;
 
-        const send = jest.fn(() => {});
-        const type = jest.fn(() => { return { send } });
-
-        handlers[0]({}, { type, send }, []);
-
-        expect(type.mock.calls[0]).toEqual(["application/json"]);
-        expect(send.mock.calls[0]).toEqual(["{}"]);
+        verifyRequestResponse(actions, { type, body });
     });
 });

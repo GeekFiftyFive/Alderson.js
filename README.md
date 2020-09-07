@@ -142,7 +142,9 @@ Forwards messages to a remove origin and returns the response
     },
     "uri": {
         "type": "string",
-        "description": "The path on the remote origin to hit"
+        "description": "The path on the remote origin to hit",
+        "optional: true,
+        "default": "defaults to the uri in the request"
     }
 }
 ~~~

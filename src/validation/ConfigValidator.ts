@@ -47,7 +47,7 @@ function validateEndpoints(endpoints: Endpoint[]) {
 }
 
 function validateActions(actions: Action[]) {
-    let errors: Error[] = [];
+    const errors: Error[] = [];
 
     if(!Array.isArray(actions)) {
         errors.push(new Error("Actions must be an array"));

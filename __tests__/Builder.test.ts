@@ -105,6 +105,7 @@ describe("Builder", () => {
 
     it("should properly create a delay handler", () => {
         jest.useFakeTimers();
+        (setTimeout as any).mockClear();
         const actions: Action[] = [{
             type: ActionType.DELAY,
             parameters: {
@@ -118,7 +119,7 @@ describe("Builder", () => {
         expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 3000);
     });
 
-    it("should properly create an origin handler", () => {
+    it("should properly create an origin handler when uri is specified", () => {
         const actions: Action[] = [{
             type: ActionType.ORIGIN,
             parameters: {
@@ -142,11 +143,47 @@ describe("Builder", () => {
         (axios as any).mockResolvedValue({
             data: "Request body"
         });
+        (axios as any).mockClear();
         handlers[0](req, res, []);
 
         expect(axios).toHaveBeenCalledWith({
             method: "GET",
             url: "localhost:8080/api",
+            data: "Request body",
+            headers: req.headers
+        });
+    });
+
+    it("should properly create an origin handler when uri is not specified", () => {
+        const actions: Action[] = [{
+            type: ActionType.ORIGIN,
+            parameters: {
+                origin: "test origin"
+            }
+        }];
+        const req = {
+            method: "GET",
+            body: "Request body",
+            url: "/v1",
+            headers: {
+                header_1: "sample value"
+            }
+        };
+        const res = {
+            send: jest.fn(() => {})
+        };
+        const handlers = buildHandlers(actions, {
+            "test origin": "localhost:8080"
+        });
+        (axios as any).mockResolvedValue({
+            data: "Request body"
+        });
+        (axios as any).mockClear();
+        handlers[0](req, res, []);
+
+        expect(axios).toHaveBeenCalledWith({
+            method: "GET",
+            url: "localhost:8080/v1",
             data: "Request body",
             headers: req.headers
         });

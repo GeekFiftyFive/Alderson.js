@@ -27,6 +27,7 @@
     "run_delayed_origin": "npm start examples/delayed_origin.json examples/basic_echo.json",
     "run_static_response": "npm start examples/static_response.json",
     "run_delayed_echo_all": "npm start examples/delayed_echo_all.json",
+    "run_delayed_origin_all": "npm start examples/basic_origin_all.json examples/delayed_echo_all.json",
     "test": "jest"
   },
   "files": [

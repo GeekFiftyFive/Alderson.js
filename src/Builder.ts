@@ -44,10 +44,11 @@ export function buildHandlers(actions: Action[], origins: any = {}): Handler[] {
             case ActionType.ORIGIN:
                 handlers.push((req: any, res: any, rest: Handler[]) => {
                     ActionValidation.validate(action, rest);
+                    const uri: string = action.parameters?.uri ? action.parameters?.uri : req.url;
 
                     axios({
                         method: req.method as AxiosMethod,
-                        url: origins[action.parameters.origin] + action.parameters.uri,
+                        url: origins[action.parameters.origin] + uri,
                         data: req.body,
                         headers: req.headers
                     }).then((response: any) => {

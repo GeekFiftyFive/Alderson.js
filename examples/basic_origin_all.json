@@ -1,0 +1,20 @@
+{
+    "port": 8081,
+    "origins": {
+        "echo_server": "http://localhost:8080"
+    },
+    "actions": [
+        {
+            "type": "log",
+            "parameters": {
+                "message": "Finished delay!"
+            }
+        },
+        {
+            "type": "origin",
+            "parameters": {
+                "origin": "echo_server"
+            }
+        }
+    ]
+}

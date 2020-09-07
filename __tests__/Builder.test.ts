@@ -69,13 +69,7 @@ describe("Builder", () => {
         verifyRequestResponse(actions, { type, body });
     });
 
-    it("should properly create a status code handler when a status code is specified", () => {
-        const actions: Action[] = [{
-            type: ActionType.STATUS_CODE,
-            parameters: {
-                status_code: 403
-            }
-        }];
+    const verifyStatusCode = (actions: Action[], statusCode: Number) => {
         const handlers = buildHandlers(actions);
         const callback = jest.fn(() => {});
         let req = {};
@@ -85,7 +79,17 @@ describe("Builder", () => {
 
         handlers[0](req, res, [callback]);
 
-        expect(res.statusCode).toEqual(403);
+        expect(res.statusCode).toEqual(statusCode);
         expect(callback.mock.calls).toHaveLength(1);
+    };
+
+    it("should properly create a status code handler when a status code is specified", () => {
+        const actions: Action[] = [{
+            type: ActionType.STATUS_CODE,
+            parameters: {
+                status_code: 403
+            }
+        }];
+        verifyStatusCode(actions, 403);
     });
 });

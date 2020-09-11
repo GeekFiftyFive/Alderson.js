@@ -1,4 +1,6 @@
+import { ActionType } from "../enums/ActionType";
+
 export interface Action {
-    type: string,
+    type: ActionType,
     parameters?: any
 }

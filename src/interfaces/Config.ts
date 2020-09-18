@@ -5,5 +5,6 @@ export interface Config {
     port?: number,
     origins?: any,
     endpoints?: Endpoint[],
-    actions?: Action[]
+    actions?: Action[],
+    filename: string
 }

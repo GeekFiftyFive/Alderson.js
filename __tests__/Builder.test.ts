@@ -3,17 +3,22 @@ import { buildHandlers } from "../src/Builder";
 import { Handler } from "../src/types/Handler";
 import { ActionType } from "../src/enums/ActionType";
 import { Action } from "../src/interfaces/Action";
+import { Config } from "../src/interfaces/Config";
 
 jest.mock("axios");
 
+const dummyConfig: Config = {
+    filename: ""
+}
+
 describe("Builder", () => {
     it("should create no handlers for an empty array", () => {
-        const handlers: Handler[] = buildHandlers([]);
+        const handlers: Handler[] = buildHandlers([], dummyConfig);
         expect(handlers).toHaveLength(0);
     });
 
     const verifyRequestResponse = (actions: Action[], expected: any) => {
-        const handlers: Handler[] = buildHandlers(actions);
+        const handlers: Handler[] = buildHandlers(actions, dummyConfig);
         expect(handlers).toHaveLength(1);
 
         const req = {
@@ -73,7 +78,7 @@ describe("Builder", () => {
     });
 
     const verifyStatusCode = (actions: Action[], statusCode: Number) => {
-        const handlers = buildHandlers(actions);
+        const handlers = buildHandlers(actions, dummyConfig);
         const callback = jest.fn(() => {});
         let req = {};
         let res = {
@@ -112,7 +117,7 @@ describe("Builder", () => {
                 duration: 3000
             }
         }];
-        const handlers = buildHandlers(actions);
+        const handlers = buildHandlers(actions, dummyConfig);
         handlers[0]({}, {}, [() => {}]);
 
         expect(setTimeout).toHaveBeenCalledTimes(1);
@@ -138,7 +143,10 @@ describe("Builder", () => {
             send: jest.fn(() => {})
         };
         const handlers = buildHandlers(actions, {
-            "test origin": "localhost:8080"
+            ...dummyConfig,
+            origins: {
+                "test origin": "localhost:8080"
+            }
         });
         (axios as any).mockResolvedValue({
             data: "Request body"
@@ -173,7 +181,10 @@ describe("Builder", () => {
             send: jest.fn(() => {})
         };
         const handlers = buildHandlers(actions, {
-            "test origin": "localhost:8080"
+            ...dummyConfig,
+            origins: {
+                "test origin": "localhost:8080"
+            }
         });
         (axios as any).mockResolvedValue({
             data: "Request body"

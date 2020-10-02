@@ -1,9 +1,8 @@
-import axios from "axios";
 import * as ActionValidation from "../validation/ActionValidator";
 import { HandlerBuilder } from "../types/HandlerBuilder";
 import { Action } from "../interfaces/Action";
 import { Handler } from "../types/Handler";
-import { Method as AxiosMethod } from "axios";
+import axios, { Method as AxiosMethod } from "axios";
 
 export const OriginHandlerBuilder: HandlerBuilder = (action: Action, origins: any) => {
     return (req: any, res: any, rest: Handler[]) => {

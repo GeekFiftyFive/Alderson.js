@@ -1,0 +1,28 @@
+{
+    "port": 8081,
+    "origins": {
+        "auth": "http://localhost:8080/auth/realms/master"
+    },
+    "endpoints": [
+        {
+            "uri": "/secret",
+            "method": "get",
+            "actions": [
+                {
+                    "type": "authentication",
+                    "parameters": {
+                        "origin": "auth"
+                    }
+                },
+                {
+                    "type": "static",
+                    "parameters": {
+                        "body": {
+                            "value": "this is secret!"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

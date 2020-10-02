@@ -6,6 +6,7 @@ import { LogHandlerBuilder } from "./LogHandler";
 import { OriginHandlerBuilder } from "./OriginHandler";
 import { StatusCodeHandlerBuilder } from "./StatusCodeHandler";
 import { StaticHandlerBuilder } from "./StaticHandler";
+import { AuthenticationHandlerBuilder } from "./AuthenticationHandler";
 
 export const handlerBuilders: Map<ActionType, HandlerBuilder> = new Map([
     [ActionType.DELAY, DelayHandlerBuilder],
@@ -13,5 +14,6 @@ export const handlerBuilders: Map<ActionType, HandlerBuilder> = new Map([
     [ActionType.LOG, LogHandlerBuilder],
     [ActionType.ORIGIN, OriginHandlerBuilder],
     [ActionType.STATUS_CODE, StatusCodeHandlerBuilder],
-    [ActionType.STATIC, StaticHandlerBuilder]
+    [ActionType.STATIC, StaticHandlerBuilder],
+    [ActionType.AUTHENTICATION, AuthenticationHandlerBuilder]
 ]);

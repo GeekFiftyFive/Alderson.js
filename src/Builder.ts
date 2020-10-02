@@ -3,13 +3,12 @@ import bodyParser from "body-parser";
 import { Config } from "./interfaces/Config";
 import { Endpoint } from "./interfaces/Endpoint";
 import { Action } from "./interfaces/Action";
-import { ActionType } from "./enums/ActionType";
 import { Handler } from "./types/Handler";
 import { handlerBuilders } from "./handlers/HandlerBuilders";
 
-export function buildHandlers(actions: Action[], origins: any = {}): Handler[] {
+export function buildHandlers(actions: Action[], config: Config): Handler[] {
     return actions.map((action: Action) => {
-        return handlerBuilders.get(action.type as ActionType)(action, origins);
+        return handlerBuilders.get(action.type)(action, config);
     });
 }
 
@@ -20,11 +19,11 @@ export function buildApp(config: Config): express.Express {
 
     if(config.endpoints) {
         config.endpoints.forEach((endpoint: Endpoint) => {
-            const handlers = buildHandlers(endpoint.actions, config.origins);
+            const handlers = buildHandlers(endpoint.actions, config);
             app[endpoint.method](endpoint.uri, (req: any, res: any) => handlers[0](req, res, handlers.slice(1)));
         });
     } else {
-        const handlers = buildHandlers(config.actions, config.origins);
+        const handlers = buildHandlers(config.actions, config);
         app.all("/*", (req: any, res: any) => handlers[0](req, res, handlers.slice(1)));
     }
 

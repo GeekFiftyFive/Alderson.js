@@ -12,7 +12,7 @@ if(process.argv.length < 3) {
 }
 
 for(let i = 2; i < process.argv.length; i++) {
-    const config: Config = JSON.parse(fs.readFileSync(process.argv[i]).toString());
+    const config: Config = { ...JSON.parse(fs.readFileSync(process.argv[i]).toString()), filename: process.argv[i] };
 
     const errors: Error[] = ConfigValidator.validate(config);
 

@@ -15,6 +15,12 @@
                     }
                 },
                 {
+                    "type": "log",
+                    "parameters": {
+                        "message": "Authenticated! Writing data..."
+                    }
+                },
+                {
                     "type": "static",
                     "parameters": {
                         "body": {

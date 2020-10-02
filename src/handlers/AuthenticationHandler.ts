@@ -4,6 +4,7 @@ import { Handler } from "../types/Handler";
 import jwt from "jsonwebtoken";
 import { jwk2pem } from "pem-jwk";
 import axios, { Method as AxiosMethod } from "axios";
+import { Config } from "../interfaces/Config";
 
 async function getToken(action: Action, origins: any) {
     const openidConfig = await axios({
@@ -19,13 +20,13 @@ async function getToken(action: Action, origins: any) {
     return jwks.data;
 }
 
-export const AuthenticationHandlerBuilder: HandlerBuilder = (action: Action, origins: any) => {
+export const AuthenticationHandlerBuilder: HandlerBuilder = (action: Action, config: Config) => {
     return (req: any, res: any, rest: Handler[]) => {
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(' ')[1];
         if (token == null) return res.sendStatus(401);
 
-        getToken(action, origins).then(jwks => {
+        getToken(action, config.origins).then(jwks => {
             jwt.verify(token, jwk2pem(jwks.keys[0]), (err: any) => {
                 if(err) {
                     return res.sendStatus(403);

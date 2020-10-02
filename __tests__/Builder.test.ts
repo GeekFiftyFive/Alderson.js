@@ -199,4 +199,6 @@ describe("Builder", () => {
             headers: req.headers
         });
     });
+
+    // TODO: Add test coverage for authentication action
 });

@@ -176,3 +176,15 @@ Sets the status code of the response
     }
 }
 ~~~
+
+### Authentication
+Authenticates the request against an OIDC server.
+
+~~~
+{
+    "origin": {
+        "type": "string",
+        "description": "Name of the origin, as defined in the origins block at the root of the config"
+    }
+}
+~~~

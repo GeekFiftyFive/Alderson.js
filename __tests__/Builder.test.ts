@@ -4,6 +4,7 @@ import { Handler } from "../src/types/Handler";
 import { ActionType } from "../src/enums/ActionType";
 import { Action } from "../src/interfaces/Action";
 import { Config } from "../src/interfaces/Config";
+import { stringify } from "querystring";
 
 jest.mock("axios");
 
@@ -199,6 +200,31 @@ describe("Builder", () => {
             headers: req.headers
         });
     });
+
+    it("should properly create a status code handler when a status code is not specified", () => {
+        const actions: Action[] = [{
+            type: ActionType.HEADER,
+            parameters: {
+                header: "Access-Control-Allow-Origin",
+                value: ["*"]
+            }
+        }];
+        const handlers = buildHandlers(actions, dummyConfig);
+        const callback = jest.fn(() => {});
+        let req = {};
+        let res = {
+            headers: new Map<string, any>(),
+            append(header: string, value: any) {
+                this.headers.set(header, value);
+            }
+        };
+
+        handlers[0](req, res, [callback]);
+
+        expect(res.headers.get("Access-Control-Allow-Origin")).toEqual(["*"]);
+        expect(callback).toHaveBeenCalledTimes(1);
+    });
+
 
     // TODO: Add test coverage for authentication action
 });

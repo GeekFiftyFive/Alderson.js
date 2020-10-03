@@ -1,6 +1,6 @@
 {
   "name": "aldersonjs",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Alderson.js is a utility for simulating responses from APIs. It can also act as a proxy to your real API, whilst acting as a middleman.",
   "main": "./dist/index.js",
   "dependencies": {
@@ -33,6 +33,7 @@
     "run_delayed_echo_all": "npm start examples/delayed_echo_all.json",
     "run_delayed_origin_all": "npm start examples/basic_origin_all.json examples/delayed_echo_all.json",
     "run_authenticated": "npm start examples/authenticated.json",
+    "run_header": "npm start examples/header.json",
     "test": "jest"
   },
   "files": [

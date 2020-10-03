@@ -188,3 +188,19 @@ Authenticates the request against an OIDC server.
     }
 }
 ~~~
+
+### Header
+Adds a header to the response.
+
+~~~
+{
+    "header": {
+        "type": "string",
+        "description": "The name of the header to be added to the response"
+    },
+    "value": {
+        "type": "any",
+        "description": "Content of the header"
+    }
+}
+~~~

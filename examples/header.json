@@ -1,0 +1,40 @@
+{
+    "endpoints": [
+        {
+            "uri": "/api",
+            "method": "get",
+            "actions": [
+                {
+                    "type": "log",
+                    "parameters": {
+                        "message": "Writing JSON content!"
+                    }
+                },
+                {
+                    "type": "header",
+                    "parameters": {
+                        "header": "Access-Control-Allow-Origin",
+                        "value": ["*"]
+                    }
+                },
+                {
+                    "type": "static",
+                    "parameters": {
+                        "body": {
+                            "version": "0.0.1",
+                            "number": 42,
+                            "string": "Alderson.JS",
+                            "array": [
+                                "Hello",
+                                "World!"
+                            ],
+                            "object": {
+                                "object_string": "static content"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

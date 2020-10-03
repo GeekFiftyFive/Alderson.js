@@ -5,5 +5,6 @@ export enum ActionType {
     ORIGIN = "origin",
     STATIC = "static",
     STATUS_CODE = "status_code",
-    AUTHENTICATION = "authentication"
+    AUTHENTICATION = "authentication",
+    HEADER = "header"
 };

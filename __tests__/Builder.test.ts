@@ -201,7 +201,7 @@ describe("Builder", () => {
         });
     });
 
-    it("should properly create a status code handler when a status code is not specified", () => {
+    it("should properly create a header handler that sets correct header value", () => {
         const actions: Action[] = [{
             type: ActionType.HEADER,
             parameters: {
